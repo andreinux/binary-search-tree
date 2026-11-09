@@ -105,18 +105,93 @@ class tree {
 
         return false;
     }
+
+    delete(value) {
+    if (this.root === null) {
+        return;
+    }
+
+    let curr = this.root;
+    let prev = null;
+
+    // Search for the node
+    while (curr !== null && curr.value !== value) {
+        prev = curr;
+
+        if (value > curr.value) {
+            curr = curr.right;
+        } else {
+            curr = curr.left;
+        }
+    }
+
+    // Value not found
+    if (curr === null) {
+        return;
+    }
+
+    // Case 1: Node has two children
+    if (curr.left !== null && curr.right !== null) {
+        let target = curr;
+        let successorParent = curr;
+        let successor = curr.right;
+
+        // Find inorder successor
+        while (successor.left !== null) {
+            successorParent = successor;
+            successor = successor.left;
+        }
+
+        // Copy successor's value
+        target.value = successor.value;
+
+        // Remove successor from original position
+        if (successorParent === target) {
+            successorParent.right = successor.right;
+        } else {
+            successorParent.left = successor.right;
+        }
+
+        return;
+    }
+
+    // Case 2: Node has zero or one child
+    let child = curr.left || curr.right;
+
+    // Deleting the root
+    if (prev === null) {
+        this.root = child;
+    }
+    // Deleting a non-root node
+    else if (prev.left === curr) {
+        prev.left = child;
+    } else {
+        prev.right = child;
+    }
+}
 }
 
+//testttttttttttttttttttttttttttttttttttttttttttttttttttt
 
+const bst = new tree();
 
+[50, 30, 70, 20, 40, 60, 80, 65].forEach(value => bst.insert(value));
 
+console.log(bst.includes(50)); // true
 
-let bst = new tree;
+bst.delete(20); // Leaf
+console.log(bst.includes(20)); // false
 
+bst.delete(30); // Two children (40 remains)
+console.log(bst.includes(30)); // false
+console.log(bst.includes(40)); // true
 
+bst.delete(60); // One right child (65)
+console.log(bst.includes(60)); // false
+console.log(bst.includes(65)); // true
 
-let arr = [50, 30, 70, 20, 40, 60, 80];
-
-console.log(bst.build(arr));
-
-console.log(bst.includes(41));
+bst.delete(50); // Root with two children
+console.log(bst.includes(50)); // false
+console.log(bst.includes(65)); // true
+console.log(bst.includes(70)); // true
+console.log(bst.includes(80)); // true
