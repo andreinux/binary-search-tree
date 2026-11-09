@@ -80,6 +80,31 @@ class tree {
 
         return this.root;
     }
+
+    includes(value){
+        let curr = this.root;
+
+
+        if(this.root === null){
+            return false;
+        }
+
+
+        while(curr !== null){
+            if(value === curr.value){
+                return true;
+            }
+
+
+            if(value > curr.value){
+                curr = curr.right;
+            }else{
+                curr = curr.left;
+            }
+        }
+
+        return false;
+    }
 }
 
 
@@ -93,3 +118,5 @@ let bst = new tree;
 let arr = [50, 30, 70, 20, 40, 60, 80];
 
 console.log(bst.build(arr));
+
+console.log(bst.includes(41));
