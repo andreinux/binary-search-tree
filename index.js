@@ -205,13 +205,66 @@ class tree {
             queue = queue.slice(1);
         }
       }
+
+      preorderDFS(callback){
+        if(typeof callback !== "function"){
+            throw new Error("callback must be a function");
+        }
+
+
+        function traverse(node){
+            
+            if(node == null) return;
+            callback(node.value);
+
+             traverse(node.left);
+             traverse(node.right);
+        }
+
+        traverse(this.root);
+      }
+
+      inorderDFS(callback){
+        if(typeof callback !== "function"){
+            throw new Error("Callback must be a function");
+        }
+
+        function traverse(node){
+            if(node == null) return;
+
+            traverse(node.left);
+            callback(node.value);
+            traverse(node.right);
+
+        }
+
+        traverse(this.root);
+      }
+
+
+      postorderDFS(callback){
+        if(typeof callback != "function"){
+            throw new Error("Callback must be a function");
+        }
+
+
+        function traverse(node){
+            if(node == null) return;
+
+            traverse(node.left);
+            traverse(node.right);
+
+            callback(node.value);
+        }
+        traverse(this.root);
+      }
 }
 
 //testttttttttttttttttttttttttttttttttttttttttttttttttttt
 
 const bst = new tree();
 
-[50, 30, 70, 20, 40, 60, 80, 65].forEach(value => bst.insert(value));
+[50, 30, 70, 20, 40, 60, 80].forEach(value => bst.insert(value));
 
 
-bst.lvlorder(value => console.log(value));
+bst.postorderDFS(value => console.log(value));
