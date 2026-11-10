@@ -274,6 +274,28 @@ class tree {
 
             return calculate(node);
       }
+
+
+      depth(value){
+        let curr = this.root;
+        let depth = 0;
+
+        while(curr != null){
+            if(curr.value === value){
+                return depth;
+            }
+
+            if(value > curr.value){
+                curr = curr.right;
+            }else{
+                curr = curr.left
+            }
+
+            depth++;
+        }
+
+        return undefined;
+      }
 }
 
 //testttttttttttttttttttttttttttttttttttttttttttttttttttt
@@ -283,4 +305,4 @@ const bst = new tree();
 [50, 30, 70, 20, 40, 60, 80].forEach(value => bst.insert(value));
 
 
-console.log(bst.height(50));
+console.log(bst.depth(20));
