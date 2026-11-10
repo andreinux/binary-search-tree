@@ -258,6 +258,22 @@ class tree {
         }
         traverse(this.root);
       }
+
+
+      height(value){
+           let node =  this.find(value);
+
+           if(node == null)return undefined;
+
+
+            function calculate(node){  
+                if(node == null)return -1;
+
+                return 1 + Math.max(calculate(node.left), calculate(node.right));
+            }
+
+            return calculate(node);
+      }
 }
 
 //testttttttttttttttttttttttttttttttttttttttttttttttttttt
@@ -267,4 +283,4 @@ const bst = new tree();
 [50, 30, 70, 20, 40, 60, 80].forEach(value => bst.insert(value));
 
 
-bst.postorderDFS(value => console.log(value));
+console.log(bst.height(50));
