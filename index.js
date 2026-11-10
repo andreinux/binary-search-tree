@@ -342,17 +342,75 @@ height(node){
 }
 
 //testttttttttttttttttttttttttttttttttttttttttttttttttttt
+
+// Generate an array of random numbers
+function generateRandomNumbers() {
+    let arr = [];
+
+    for (let i = 0; i < 10; i++) {
+        arr.push(Math.floor(Math.random() * 100));
+    }
+
+    return arr;
+}
+
+// Create BST
 const bst = new tree();
+const randomNumbers = generateRandomNumbers();
 
-[10, 20, 30, 40, 50, 60, 70].forEach(value => bst.insert(value));
+console.log("INITIAL ARRAY:", randomNumbers);
 
-console.log(bst.isBalanced()); // false
+bst.build(randomNumbers);
+
+// 1. Confirm that the tree is balanced
+console.log("\nIS BALANCED?", bst.isBalanced());
+
+// 2. Print the original tree
+console.log("\nINITIAL TREE:");
 prettyPrint(bst.root);
 
+// 3. Print all traversal orders
+console.log("\nLEVEL ORDER:");
+bst.lvlorder(value => console.log(value));
+
+console.log("\nPREORDER:");
+bst.preorderDFS(value => console.log(value));
+
+console.log("\nPOSTORDER:");
+bst.postorderDFS(value => console.log(value));
+
+console.log("\nINORDER:");
+bst.inorderDFS(value => console.log(value));
+
+
+// 4. Unbalance the tree
+[110, 120, 130, 140, 150].forEach(value => bst.insert(value));
+
+console.log("\nTREE AFTER ADDING VALUES ABOVE 100:");
+prettyPrint(bst.root);
+
+// 5. Confirm that the tree is unbalanced
+console.log("\nIS BALANCED?", bst.isBalanced());
+
+
+// 6. Rebalance the tree
 bst.rebalance();
 
-console.log(bst.isBalanced()); // true
-
-
-
+console.log("\nTREE AFTER REBALANCING:");
 prettyPrint(bst.root);
+
+// 7. Confirm that the tree is balanced
+console.log("\nIS BALANCED?", bst.isBalanced());
+
+// 8. Print all traversal orders again
+console.log("\nLEVEL ORDER:");
+bst.lvlorder(value => console.log(value));
+
+console.log("\nPREORDER:");
+bst.preorderDFS(value => console.log(value));
+
+console.log("\nPOSTORDER:");
+bst.postorderDFS(value => console.log(value));
+
+console.log("\nINORDER:");
+bst.inorderDFS(value => console.log(value));
