@@ -1,4 +1,16 @@
 
+//prettyprint function
+const prettyPrint = (node, prefix = '', isLeft = true) => {
+    if (node === null || node === undefined) {
+        return;
+    }
+
+    prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.value}`);
+    prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+};
+
+
 class Node {
     constructor(value){
         this.value = value;
@@ -302,13 +314,45 @@ height(node){
         return this.isBalanced(node.left) && this.isBalanced(node.right);
 
       }
+
+      rebalance(){
+        let arr = [];
+
+        this.inorderDFS(value => arr.push(value));
+
+
+
+        function buildTree(arr){
+            if(arr.length == 0){
+                return null;
+            }
+        let middle = Math.floor(arr.length / 2);
+        let newNode = new Node(arr[middle]);
+        newNode.left = buildTree(arr.slice(0, middle));
+        newNode.right = buildTree(arr.slice(middle + 1));
+
+        return newNode
+
+        }
+
+        this.root = buildTree(arr);
+
+    
+      }
 }
 
 //testttttttttttttttttttttttttttttttttttttttttttttttttttt
-
 const bst = new tree();
 
-[50, 30, 70, 20, 40, 60, 80].forEach(value => bst.insert(value));
+[10, 20, 30, 40, 50, 60, 70].forEach(value => bst.insert(value));
+
+console.log(bst.isBalanced()); // false
+prettyPrint(bst.root);
+
+bst.rebalance();
+
+console.log(bst.isBalanced()); // true
 
 
-console.log(bst.isBalanced());
+
+prettyPrint(bst.root);
