@@ -105,6 +105,7 @@ class tree {
 
         return false;
     }
+// delete method
 
     delete(value) {
     if (this.root === null) {
@@ -169,6 +170,41 @@ class tree {
         prev.right = child;
     }
 }
+
+
+//level order traversal method
+
+
+      lvlorder(callback){
+
+        if(typeof callback !== "function"){
+            throw new Error("Callback must be a function");
+        }
+
+        if(this.root == null) return;
+
+
+        let queue = [];
+        let curr;
+
+
+        queue.push(this.root);
+
+        while(queue.length > 0){
+            curr = queue[0];
+            callback(curr.value);
+            
+            if(curr.left !== null){
+                queue.push(curr.left);
+            }
+
+            if(curr.right !== null){
+                queue.push(curr.right);
+            }
+
+            queue = queue.slice(1);
+        }
+      }
 }
 
 //testttttttttttttttttttttttttttttttttttttttttttttttttttt
@@ -177,21 +213,5 @@ const bst = new tree();
 
 [50, 30, 70, 20, 40, 60, 80, 65].forEach(value => bst.insert(value));
 
-console.log(bst.includes(50)); // true
 
-bst.delete(20); // Leaf
-console.log(bst.includes(20)); // false
-
-bst.delete(30); // Two children (40 remains)
-console.log(bst.includes(30)); // false
-console.log(bst.includes(40)); // true
-
-bst.delete(60); // One right child (65)
-console.log(bst.includes(60)); // false
-console.log(bst.includes(65)); // true
-
-bst.delete(50); // Root with two children
-console.log(bst.includes(50)); // false
-console.log(bst.includes(65)); // true
-console.log(bst.includes(70)); // true
-console.log(bst.includes(80)); // true
+bst.lvlorder(value => console.log(value));
