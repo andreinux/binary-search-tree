@@ -259,22 +259,14 @@ class tree {
         traverse(this.root);
       }
 
+height(node){
+    if(node === null) return -1;
 
-      height(value){
-           let node =  this.find(value);
-
-           if(node == null)return undefined;
-
-
-            function calculate(node){  
-                if(node == null)return -1;
-
-                return 1 + Math.max(calculate(node.left), calculate(node.right));
-            }
-
-            return calculate(node);
-      }
-
+    return 1 + Math.max(
+        this.height(node.left),
+        this.height(node.right)
+    );
+}
 
       depth(value){
         let curr = this.root;
@@ -296,6 +288,20 @@ class tree {
 
         return undefined;
       }
+
+      isBalanced(node = this.root){
+        if(node === null)return true;
+
+        let right = this.height(node.right);
+        let left = this.height(node.left);
+
+        if(Math.abs(right - left) > 1){
+            return false;
+        }
+
+        return this.isBalanced(node.left) && this.isBalanced(node.right);
+
+      }
 }
 
 //testttttttttttttttttttttttttttttttttttttttttttttttttttt
@@ -305,4 +311,4 @@ const bst = new tree();
 [50, 30, 70, 20, 40, 60, 80].forEach(value => bst.insert(value));
 
 
-console.log(bst.depth(20));
+console.log(bst.isBalanced());
